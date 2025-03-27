@@ -30,7 +30,7 @@ export const SideBar = ({closed, setClosed}: SideBarProps) => {
                 <SubjectNavBox>
                     <SubjectWrapper>
                         <Wrap onClick={() => setShowBar(prev => !prev)}>
-                            <img src={Subject} alt="" />
+                            <img src={Subject} alt="" style={{cursor: 'pointer'}}/>
                             {!closed && 
                                 <HeadWrap>
                                     <p>과목</p>
