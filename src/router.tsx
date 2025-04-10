@@ -1,7 +1,10 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { GlobalStyle } from "./styles/globalStyle.style";
 import { Home } from "./pages/home";
-import { SubjectLayout } from "./components/subjectLayout";
+import { Korean } from "./pages/subject/korean";
+import { History } from "./pages/subject/history";
+import { Math } from "./pages/subject/math";
+import { Science } from "./pages/subject/science";
 
 export const Router = () => {
     return (
@@ -9,7 +12,10 @@ export const Router = () => {
             <GlobalStyle/>
             <Routes>
                 <Route path="/" element={<Home />}/>
-                <Route path="/layout" element={<SubjectLayout />}/>
+                <Route path="/korean" element={<Korean />}/>
+                <Route path="/history" element={<History />}/>
+                <Route path="/math" element={<Math />}/>
+                <Route path="/science" element={<Science/>}/>
             </Routes>
         </BrowserRouter>
     )

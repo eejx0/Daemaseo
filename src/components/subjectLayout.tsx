@@ -1,16 +1,22 @@
 import styled from "styled-components"
 import { SideBar } from "./sideBar";
 import Arrow from "../assets/arrow.svg";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import Book from "../assets/book.png";
 
-export const SubjectLayout = () => {
+interface SubjectLayoutProps {
+    unitNames: string[];
+    content: ReactNode[];
+  }
+
+export const SubjectLayout = ({unitNames, content}: SubjectLayoutProps) => {
     const [closed, setClosed] = useState<boolean>(false)
     const [showBars, setShowBars] = useState<boolean[]>([false, false]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const text = "단원을 선택해주세요 ...";
     const [displayedText, setDisplayedText] = useState("");
     const [index, setIndex] = useState(0);
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
@@ -32,8 +38,18 @@ export const SubjectLayout = () => {
 
     const handleToggle = (index: number) => {
         setShowBars(prev => {
-            const updated = prev.map((item, i) => (i === index ? !item : item));
-            setIsLoading(!updated.includes(true));
+            const updated = prev.map((item, i) => (i === index ? !item : false)); 
+            setIsLoading(true);
+    
+            if (updated[index]) {
+                setTimeout(() => {
+                    setIsLoading(false);
+                    setSelectedIndex(index);
+                }, 100); 
+            } else {
+                setSelectedIndex(null);
+            }
+    
             return updated;
         });
     };
@@ -47,7 +63,7 @@ export const SubjectLayout = () => {
                     <SubTitle>배우고자 하는 단원을 선택해요</SubTitle>
                 </TitleWrapper>
                 <SelectUnitWrapper>
-                   {["소통과 공감", "교양 있는 언어 생활"].map((text, index) => (
+                    {unitNames.map((text, index) => (
                         <UnitWrapper key={index} onClick={() => handleToggle(index)}>
                             <p>{text}</p>
                             <ArrowIcon $isOpen={showBars[index]} src={Arrow} alt=">" />
@@ -60,14 +76,15 @@ export const SubjectLayout = () => {
                         <p>{!displayedText ? "단" : displayedText}</p>
                     </LoadingWrapper>
                 )}
-                {!isLoading && (
+                {!isLoading && selectedIndex !== null && (
                     <>
                         <TitleWrapper style={{marginTop: '70px'}}>
                             <Ttile>관련 내용</Ttile>
                             <SubTitle>이 단원에는 이런 내용이 있어요</SubTitle>
                         </TitleWrapper>
                         <ContentWrapper>
-                            <p></p>
+                            <p>{content[selectedIndex]}</p>
+                            <div />
                         </ContentWrapper>
                     </>
                 )}
@@ -135,13 +152,19 @@ const ContentWrapper = styled.div`
     display: flex;
     padding: 25px;
     width: 100%;
-    height: 100%;
+    flex-direction: column;
+    height: 350px;
     box-shadow: 0px 4px 10px 4px rgba(0,0,0,0.1);
     margin-top: 30px;
     border-radius: 30px;
+    overflow-y: scroll;
     > p {
         line-height: 25px;
         font-size: 15px;
+    }
+    > div {
+        height: 25px;
+        width: 100%;
     }
 `;
 
