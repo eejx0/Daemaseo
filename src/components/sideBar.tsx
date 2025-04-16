@@ -2,9 +2,11 @@ import styled from "styled-components"
 import Logo from "../assets/logo.svg";
 import Person from "../assets/sideBar/person.svg";
 import Subject from "../assets/sideBar/subject.svg";
+import Home from "../assets/sideBar/home.svg";
 import Arrow from "../assets/arrow.svg";
 import { useState } from "react";
 import { Dispatch, SetStateAction } from "react";
+import { Link } from "react-router-dom";
 
 interface SideBarProps {
     closed: boolean;
@@ -18,15 +20,28 @@ export const SideBar = ({closed, setClosed}: SideBarProps) => {
         <Wrapper style={{width: closed ? "74px" : "282px"}}>
             <img src={Logo} alt="대마서" onClick={() => setClosed(!closed)}/>
             <NavWrapper>
-                <NavBox>
-                    <img src={Person} alt="" />
-                    {!closed && 
-                        <HeadWrap>
-                            <p>자기소개</p>
-                            <img src={Arrow} alt=">" />
-                        </HeadWrap>
-                    }
-                </NavBox>
+                <Link to={'/'}>
+                    <NavBox>
+                        <img src={Home} alt="" />
+                        {!closed && 
+                            <HeadWrap>
+                                <p>홈</p>
+                                <img src={Arrow} alt=">" />
+                            </HeadWrap>
+                        }
+                    </NavBox>
+                </Link>
+                <Link to={'/introduce'}>
+                    <NavBox>
+                        <img src={Person} alt="" />
+                        {!closed && 
+                            <HeadWrap>
+                                <p>자기소개</p>
+                                <img src={Arrow} alt=">" />
+                            </HeadWrap>
+                        }
+                    </NavBox> 
+                </Link>
                 <SubjectNavBox>
                     <SubjectWrapper>
                         <Wrap onClick={() => setShowBar(prev => !prev)}>
@@ -39,18 +54,26 @@ export const SideBar = ({closed, setClosed}: SideBarProps) => {
                             }
                         </Wrap>
                         <SubWrap $isOpen={showBar}>
-                            <SubjectName>
-                                <p>국어</p>
-                            </SubjectName>
-                            <SubjectName>
-                                <p>수학</p>
-                            </SubjectName>
-                            <SubjectName>
-                                <p>한국사</p>
-                            </SubjectName>
-                            <SubjectName>
-                                <p>과학</p>
-                            </SubjectName>
+                            <Link to={'/korean'}>
+                                <SubjectName>
+                                    <p>국어</p>
+                                </SubjectName>
+                            </Link>
+                            <Link to={'/math'}>
+                                <SubjectName>
+                                    <p>수학</p>
+                                </SubjectName>
+                            </Link>
+                            <Link to={'/history'}>
+                                <SubjectName>
+                                    <p>한국사</p>
+                                </SubjectName>
+                            </Link>
+                            <Link to={'/science'}>
+                                <SubjectName>
+                                    <p>과학</p>
+                                </SubjectName>
+                            </Link>
                         </SubWrap>
                     </SubjectWrapper>
                 </SubjectNavBox>
@@ -133,7 +156,7 @@ const SubWrap = styled.div<{$isOpen: boolean}>`
     margin-left: 30px;
     overflow: hidden;
     
-    height: ${({ $isOpen }) => ($isOpen ? "120px" : "0px")};  
+    height: ${({ $isOpen }) => ($isOpen ? "" : "0px")};  
     opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};  
     transform: translateY(${({ $isOpen }) => ($isOpen ? "0" : "-10px")});
     

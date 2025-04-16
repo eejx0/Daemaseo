@@ -52,7 +52,7 @@ export const SubjectLayout = ({unitNames, content}: SubjectLayoutProps) => {
     
             return updated;
         });
-    };
+    }; 
 
     return (
         <Wrapper>
@@ -101,7 +101,8 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding: 50px 100px 50px 100px;
-    width: 100vw;
+    width: 100%;
+    flex: 1;
 `;
 
 const TitleWrapper = styled.div`
